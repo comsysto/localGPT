@@ -14,4 +14,4 @@ COPY ingest.py constants.py ./
 
 COPY . .
 ENV device_type=cuda
-CMD --mount=type=cache,target=/root/.cache python ingest.py --device_type $device_type && python run_localGPT.py --device_type $device_type
+CMD python ingest.py --device_type $device_type && python run_localGPT.py --device_type $device_type
