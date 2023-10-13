@@ -11,11 +11,7 @@ COPY ./requirements.txt .
 RUN --mount=type=cache,target=/root/.cache CMAKE_ARGS="-DLLAMA_CUBLAS=on" FORCE_CMAKE=1 pip install --timeout 100 -r requirements.txt
 COPY SOURCE_DOCUMENTS ./SOURCE_DOCUMENTS
 COPY ingest.py constants.py ./
-# Docker BuildKit does not support GPU during *docker build* time right now, only during *docker run*.
-# See <https://github.com/moby/buildkit/issues/1436>.
-# If this changes in the future you can `docker build --build-arg device_type=cuda  . -t localgpt` (+GPU argument to be determined).
-ARG device_type=cpu
-RUN --mount=type=cache,target=/root/.cache python ingest.py --device_type $device_type
+
 COPY . .
 ENV device_type=cuda
-CMD python run_localGPT.py --device_type $device_type
+CMD --mount=type=cache,target=/root/.cache python ingest.py --device_type $device_type && python run_localGPT.py --device_type $device_type
