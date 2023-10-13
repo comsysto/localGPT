@@ -3,6 +3,9 @@
 # Run as `docker run -it --mount src="$HOME/.cache",target=/root/.cache,type=bind --gpus=all localgpt`, requires Nvidia container toolkit.
 
 FROM nvcr.io/nvidia/cuda:11.7.1-runtime-ubuntu22.04
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C A4B469963BF863CC
+
 RUN apt-get update -V
 RUN apt-get install -y software-properties-common
 RUN apt-get install -y g++-11 make python3 python-is-python3 pip
